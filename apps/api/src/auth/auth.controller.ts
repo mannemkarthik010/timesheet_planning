@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  ForbiddenException,
-  HttpCode,
-  Post,
-  Req,
-  UseGuards,
-} from "@nestjs/common";
+import { Body, Controller, HttpCode, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import type { Request } from "express";
 import {
@@ -32,6 +24,8 @@ import { AuthService } from "./auth.service";
 import { UserEntity } from "./entities/user.entity";
 import { ZodValidationPipe } from "../common/pipes/zod-validation.pipe";
 import { JwtAuthGuard } from "../common/guards/jwt-auth.guard";
+import { RolesGuard } from "../common/guards/roles.guard";
+import { Roles } from "../common/decorators/roles.decorator";
 import { CurrentUser } from "../common/decorators/current-user.decorator";
 import type { JwtAccessPayload } from "@timesheet/shared-types";
 
@@ -90,19 +84,14 @@ export class AuthController {
     return { success: true };
   }
 
-  // [admin]-only per api-contract.md §1. The role check is inline here
-  // for now; it moves onto the reusable RolesGuard once that lands (see
-  // common/guards), matching data-model.md §3.3's "NestJS guards are the
-  // primary enforcement point at the API layer."
+  // [admin]-only per api-contract.md §1.
   @Post("invite")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   invite(
     @Body(new ZodValidationPipe(inviteRequestSchema)) dto: InviteRequest,
     @CurrentUser() currentUser: JwtAccessPayload,
   ) {
-    if (currentUser.role !== UserRole.ADMIN) {
-      throw new ForbiddenException("This action requires the admin role.");
-    }
     return this.authService.invite(dto, currentUser.sub);
   }
 
