@@ -1,0 +1,22 @@
+{
+  "name": "timesheet-planning",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Restaurant Timesheet, Scheduling & Payroll App — monorepo root",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run start:dev --workspace=@timesheet/api",
+    "build:api": "npm run build --workspace=@timesheet/api",
+    "test:api": "npm run test --workspace=@timesheet/api",
+    "test:api:e2e": "npm run test:e2e --workspace=@timesheet/api",
+    "migration:run": "npm run migration:run --workspace=@timesheet/api",
+    "migration:revert": "npm run migration:revert --workspace=@timesheet/api",
+    "build:shared-types": "npm run build --workspace=@timesheet/shared-types"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

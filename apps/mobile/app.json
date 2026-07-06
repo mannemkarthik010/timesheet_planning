@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Restaurant Timesheet",
+    "slug": "restaurant-timesheet",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.timesheet.app"
+    },
+    "android": {
+      "package": "com.timesheet.app"
+    }
+  }
+}
