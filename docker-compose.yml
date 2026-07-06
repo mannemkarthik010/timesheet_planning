@@ -1,5 +1,3 @@
-version: "3.9"
-
 # Local development only. Production uses managed Postgres + Redis
 # (see /docs/tech-stack.md — Supabase/Neon/RDS + a Redis add-on).
 services:
